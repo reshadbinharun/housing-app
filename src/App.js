@@ -9,6 +9,7 @@ import Requests from './Requests'
 import Search from './Search'
 import Listing from './Listing'
 import logo from './home.png'
+import FBLogin from './FBLogin'
 //have to encapsulate all of code in <Router>
 //passing in props to children component in Router: https://stackoverflow.com/questions/45898789/react-router-pass-param-to-component
 class App extends Component {
@@ -26,12 +27,14 @@ class App extends Component {
     }
     this.handleLogin = this.handleLogin.bind(this);
     this.updateDash = this.updateDash.bind(this);
+    this.updateFB = this.updateFB.bind(this);
   }
  
   handleLogin(loggedIn, userID, name, email){
     this.setState({loggedIn, userID, name, email}); //lifting state
   }
   //<Route exact path="/profile" component={User} user={this.state} changeInfo={this.updateDash}/>
+  //<Route exact path="/login" component={FBLogin}/>
   //test fucntion to lift state
   updateDash(val){
     console.log("update called with info", val)
@@ -39,6 +42,14 @@ class App extends Component {
       name: val
     })
 
+  }
+
+  updateFB(res){
+    console.log("about to update info from facebook", res);
+    this.setState({
+      name:res.name,
+      email: res.email
+    })
   }
 
   render() {
@@ -61,8 +72,8 @@ class App extends Component {
             <NavLink className = "col-2" exact to="/profile"> Profile </NavLink>  
           </nav>
           <p> Welcome to your Dashboard, {this.state.name} </p>
-          <Facebook/>
-          <Route exact path="/login" component={Facebook}/>
+          <p> You are logged into your Facebook account under email {this.state.email} </p>
+          <Route exact path="/login" render={props => <FBLogin {...props} changeInfo={this.updateFB}/> } />
           <Route exact path="/" component={Home}/>
           
           <Route exact path="/profile" render={props => <User {...props} changeInfo={this.updateDash}/> } /> 

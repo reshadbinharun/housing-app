@@ -19,16 +19,28 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this);
      this.state = {
       loggedIn: false,
-      userID: '',
-      name: '',
-      email: '',
+      userID: '1234',
+      name: 'reshad',
+      email: 'reshadbinharun',
       //image: response.picture.data.url
     }
+    this.handleLogin = this.handleLogin.bind(this);
+    this.updateDash = this.updateDash.bind(this);
   }
  
   handleLogin(loggedIn, userID, name, email){
     this.setState({loggedIn, userID, name, email}); //lifting state
   }
+  //<Route exact path="/profile" component={User} user={this.state} changeInfo={this.updateDash}/>
+  //test fucntion to lift state
+  updateDash(val){
+    console.log("update called with info", val)
+    this.setState({
+      name: val
+    })
+
+  }
+
   render() {
     //lifting
     const loggedIn = this.state.loggedIn, userID = this.state.userID, name = this.state.name, email = this.state.email;
@@ -46,12 +58,14 @@ class App extends Component {
             <NavLink className = "col-2" exact to="/requests"> Requests </NavLink>
             <NavLink className = "col-2" exact to="/listing"> Listings </NavLink>
             <NavLink className = "col-2" exact to="/search"> Search </NavLink>
-            <NavLink className = "col-2" exact to="/User:username"> Profile </NavLink>  
+            <NavLink className = "col-2" exact to="/profile"> Profile </NavLink>  
           </nav>
+          <p> Welcome to your Dashboard, {this.state.name} </p>
           <Facebook/>
           <Route exact path="/login" component={Facebook}/>
           <Route exact path="/" component={Home}/>
-          <Route exact path="/User:username" render={(props) => <User user={this.state.user} {...props} /> } />
+          
+          <Route exact path="/profile" render={props => <User {...props} changeInfo={this.updateDash}/> } /> 
           <Route exact path="/requests" component={Requests}/>
           <Route exact path="/search" component={Search}/>
           <Route exact path="/listing" component={Listing}/>

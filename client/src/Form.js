@@ -30,7 +30,8 @@ class Form extends Component {
 	}
 	handleSubmit(e){
 		e.preventDefault();
-		console.log(this.state)
+		console.log("Form submitted has e", e.target)
+		//console.log(this.state)
 		axios.post('/search', {
 		    zip: this.state.zip,
 		    high_price: this.state.high_price,

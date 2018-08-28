@@ -28,7 +28,8 @@ class App extends Component {
       userID: '',
       name: '',
       email: '',
-      validated: false
+      validated: false,
+      school: ''
       //image: response.picture.data.url
     }
     this.handleLogin = this.handleLogin.bind(this);
@@ -78,7 +79,8 @@ class App extends Component {
       .then( (response) => {
         console.log(response);
         this.setState({
-          validated: response.data.validated //change to response
+          validated: response.data.validated, //change to response,
+          school: response.data.school
         })
       })
       .catch(function (error) {
@@ -139,7 +141,7 @@ class App extends Component {
                   <Route exact path="/profile" render={props => <User {...props} changeInfo={this.updateDash}/> } /> 
                   <Route exact path="/requests" render={props => <Requests {...props} email={this.state.email}/> }/>
                   <Route exact path="/search" component={Search}/>
-                  <Route exact path="/listing" component={Listing}/>
+                  <Route exact path="/listing" render={props => <Listing {...props} user={this.state.email} school ={this.props.school}/> }/>
                 
                 </div>
       

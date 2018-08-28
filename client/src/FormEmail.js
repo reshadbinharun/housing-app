@@ -44,7 +44,7 @@ export default class FormEmail extends Component {
 		e.preventDefault();
 		console.log(e.target);
 		this.setState({
-			school: e.target.value
+			//school: e.target.value
 		}, console.log("school changed to" ,this.state.school))
 	}
 
@@ -72,7 +72,7 @@ export default class FormEmail extends Component {
 				    <select>
 			          {this.populateSchools(schools)}
 			        </select>
-			        <input type = "submit" value="Submit"> </input>
+			        <input type = "submit" value="Submit"/>
 			    </form>
 		        </div>
 	        )

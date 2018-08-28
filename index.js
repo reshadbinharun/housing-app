@@ -111,7 +111,7 @@ app.post("/search", function(req, res){
 app.post("/validate", function(req, res){
   var email_id = req.body.email;
   console.log("validated route hit with ", email_id)
-  res.send({validated: false})
+  res.send({validated: true, school:'tufts'}) //refer to database interaction
 })
 
 app.get("/loadUnis", function(req, res){
@@ -121,6 +121,31 @@ app.get("/loadUnis", function(req, res){
     res.send(dat);
   });
 })
+
+/*
+zip: this.state.zip,
+        price: this.state.price,
+        start_m: this.state.start_m,
+        start_y: this.state.start_y,
+        end_m: this.state.end_m,
+        end_y: this.state.end_y
+
+*/
+
+app.post("/addList", function(req, res){
+  var user = req.body.user, street = req.body.street, zip = req.body.zip, city = req.body.city, school = req.body.school, start_m = req.body.start_m, start_y = req.body.start_y, 
+             end_m = req.body.end_m, end_y = req.body.end_y, price = req.body.price, parking = req.body.parking;
+  console.log("addList route hit for ", user)
+  db.collection('users').insert({email: user, 
+                                address: {street: street, zip: zip},
+                                school: school,
+                                availability: {start_m: start_m, start_y: start_y, end_m: end_m, end_y: end_y},
+                                price: price,
+                                parking: parking
+  })
+  res.send("Added Listing!")
+})
+
 
 app.listen(8080, () => console.log("Server is running!"));
 

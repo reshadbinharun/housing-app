@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import Logout from './Logout'
 import ListObj from './ListObj'
+import AddList from './AddList'
 
 class Listing extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
-			user: ''
+			user: '',
+			school: ''
 		}
 	}
 	ComponentDidMount(){
 		this.setState({
-			user: this.props.user
+			user: this.props.user,
+			school: this.props.school
 		})
 	}
   render() {
@@ -21,6 +24,7 @@ class Listing extends Component {
         <p> {this.state.user} </p>
       	<Logout/>
         <p> Post a listing </p>
+        <AddList user={this.user} school={this.props.school} />
       </div>
     );
   }

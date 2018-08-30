@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Logout from './Logout'
 import ListObj from './ListObj'
 import AddList from './AddList'
+import MyListings from './MyListings'
 
 class Listing extends Component {
 	constructor(props){
@@ -25,6 +26,8 @@ class Listing extends Component {
       	<Logout/>
         <p> Post a listing </p>
         <AddList user={this.user} school={this.props.school} />
+        <p> Your Listings </p>
+        <MyListings user={this.user}/>
       </div>
     );
   }

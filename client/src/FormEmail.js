@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 import './Form.css'
 import axios from 'axios'
+//import Select from 'react-select-plus'
 
+
+/*
+
+<Select
+  name="form-field-name"
+  value="one"
+  options={options}
+  onChange={this.selectSchool}
+/>
+
+for (var i = 0; i < schools.length; i++){
+	options.push({'value': schools[i], 'label': schools[i]})
+}
+console.log(options);
+			
+
+*/
 export default class FormEmail extends Component {
 	constructor(props){
 		super(props);
@@ -42,9 +60,9 @@ export default class FormEmail extends Component {
 
 	handleChange(e){
 		e.preventDefault();
-		console.log(e.target);
+		console.log(e.target.value);
 		this.setState({
-			//school: e.target.value
+			school: e.target.value
 		}, console.log("school changed to" ,this.state.school))
 	}
 
@@ -64,16 +82,16 @@ export default class FormEmail extends Component {
 		}
 		else{
 			const schools = this.state.allSchools;
-			console.log(schools);
+			var options;
 			return(
-		        <div className= "int-box">
-		        <p> Select your institution </p>
-		        <form onSubmit = {this.handleChange}>
-				    <select>
-			          {this.populateSchools(schools)}
-			        </select>
-			        <input type = "submit" value="Submit"/>
-			    </form>
+		        <div>
+		        	<form onSubmit ={this.handleChange}>
+						<label> Select your institution </label>
+					    <select name = "school" options= {schools}>
+					      {this.populateSchools(schools)}
+					    </select>
+					    <input type="submit" value="Submit"/>
+					</form>
 		        </div>
 	        )
 		}

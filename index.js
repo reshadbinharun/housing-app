@@ -111,7 +111,7 @@ app.post("/search", function(req, res){
 app.post("/validate", function(req, res){
   var email_id = req.body.email;
   console.log("validated route hit with ", email_id)
-  res.send({validated: true, school:'tufts'}) //refer to database interaction
+  res.send({validated: false, school:''}) //refer to database interaction
 })
 
 app.get("/loadUnis", function(req, res){

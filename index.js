@@ -1,11 +1,13 @@
+require('dotenv').config()
 var express = require('express'),
 bodyParser = require('body-parser'),
 nodemailer = require('nodemailer')
 app = express();
 app.use(bodyParser.json())
 const mongo = require('mongodb').MongoClient,
-url = 'mongodb://reshad:house-1124@ds121312.mlab.com:21312/housing-uni';
+url = process.env.mongo_url;
 var db; //setting var with global scope
+
 
 //SETTING UP SMTP using nodemailer
 /*
@@ -14,19 +16,20 @@ var db; //setting var with global scope
 var smtpTransport = nodemailer.createTransport({
     service: 'Mailgun',
     auth: {
-      user: 'postmaster@sandbox9dbf1f280ba046f587e1ee67ac9c75fe.mailgun.org',
-      pass: '97e4d2058280c6ac4cfe1395e56f6274-c1fe131e-b9a0d97d'
+      user: process.env.smtp_user,
+      pass: process.env.smtp_pass
     }});
 var rand, mailOptions, host, link;
 
-app.post('/send', function(req,res){
-  console.log("email send route hit!", req.body)
+app.post('/startVerify', function(req,res){
+  var email = req.body.email;
+  console.log("email verify send route hit!", req.body)
         rand = Math.floor((Math.random() * 100) + 54);
     host = req.get('host');
     link = "http://"+req.get('host')+"/verify?id="+rand;
     //change to email that needs to be verified
     mailOptions = {
-        to : 'md.bin_harun@tufts.edu',
+        to : 'reshadbinharun',
         subject : "Please confirm your Email account",
         html : "Hello,<br> Please Click on the link to verify your email.<br><a href="+link+">Click here to verify</a>" 
     }
@@ -42,8 +45,10 @@ app.post('/send', function(req,res){
 });
 });
 
+//AUTOMATICALLY CALLED WHEN VERIFICATION LINK IS CLICKED!
 app.get('/verify',function(req,res){
 console.log(req.protocol+":/"+req.get('host'));
+var email = req.body.email;
 if((req.protocol+"://"+req.get('host'))==("http://"+host))
 {
     console.log("Domain is matched. Information is from Authentic email");
@@ -111,7 +116,9 @@ app.post("/search", function(req, res){
 app.post("/validate", function(req, res){
   var email_id = req.body.email;
   console.log("validated route hit with ", email_id)
-  res.send({validated: false, school:''}) //refer to database interaction
+  //interaction with email verification and if email verified, modify database to say the email has been verified
+
+  res.send({validated: true, school:'tufts'}) //refer to database interaction
 })
 
 app.get("/loadUnis", function(req, res){
@@ -146,6 +153,15 @@ app.post("/addList", function(req, res){
   res.send("Added Listing!")
 })
 
+app.post('/getUserListings', function(req, res){
+  console.log("getting your listings")
+  var user = req.body.email;
+  var cursor = db.collection('users').find({email: email});
+  var db_data = cursor.toArray(function(err,dat){
+    console.log(dat);
+    res.send(dat);
+  });
+})
 
 app.listen(8080, () => console.log("Server is running!"));
 

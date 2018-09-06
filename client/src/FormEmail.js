@@ -32,6 +32,7 @@ export default class FormEmail extends Component {
 		this.populateSchools = this.populateSchools.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.sanitizeAndValidate = this.sanitizeAndValidate.bind(this);
+		this.submitForm = this.submitForm.bind(this);
 		//this.handleSubmit = this.handleSubmit.bind(this);
 
 	}
@@ -41,18 +42,26 @@ export default class FormEmail extends Component {
 		e.preventDefault();
 		//var regex = '/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi'
 		var email_str = this.state.email_validate;
-		var email = email_str.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+		var email = email_str.replace(/[<>*+?^${}()|[\]\\]/g, '') //does not seen to work!
+		email += '@';
+		email += this.state.school;
+		email += '.edu'
 		console.log("after replace", email)
 		this.setState({
 			email_validate: email
-		}, console.log("sanitized email is ", this.state.email_validate)).then( () => {
-			axios.post('/requestValidationEmail', {email: this.state.email_validate}).then(function(response){
-				//handle response after having sent validation email
-			}).catch(function (error) {
+		}, this.submitForm)
+
+	}
+	submitForm(){
+		axios.post('/startVerify', {
+		    email: 'reshadbinharun@gmail' //TEST EMAIL
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		  })
+		  .catch(function (error) {
 		    console.log(error);
 		  });
-		})
-
 	}
 
 	componentWillMount(){

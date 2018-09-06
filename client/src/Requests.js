@@ -28,7 +28,6 @@ class Requests extends Component {
   render() {
     return (
       <div>
-      	<Logout />
         <p> Here are your requests </p>
         <ReqObj allReqs = {this.state.reqs} />
       </div>

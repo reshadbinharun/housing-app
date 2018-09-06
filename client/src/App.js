@@ -38,6 +38,10 @@ class App extends Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.checkValidation = this.checkValidation.bind(this);
   } 
+
+  componentDidMount(){
+    document.title = "U n' I Housing"
+  }
  
   handleLogin(loggedIn, userID, name, email){
     this.setState({loggedIn, userID, name, email}); //lifting state

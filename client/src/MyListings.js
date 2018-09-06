@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ListObj from './ListObj'
 import axios from 'axios'
 
-class Listing extends Component {
+class MyListings extends Component {
 	constructor(props){
 		super(props);
 		this.state = {
@@ -12,9 +12,10 @@ class Listing extends Component {
 		this.LoadListings = this.LoadListings.bind(this);
 	}
 	ComponentDidMount(){
+    console.log("this user is ", this.props.user)
 		this.setState({
 			user: this.props.user
-		}, axios.post('getUserListings', {email: this.state.user}).then( (response) => {
+		}, axios.post('/getUserListings', {email: this.state.user}).then( (response) => {
         console.log(response);
         var myListings = []
         for (var i = 0; i < response.listings.length; i++){
@@ -51,4 +52,4 @@ class Listing extends Component {
   }
 }
 
-export default Listing;
+export default MyListings;

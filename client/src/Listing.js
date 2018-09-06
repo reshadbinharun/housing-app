@@ -23,7 +23,6 @@ class Listing extends Component {
       <div>
       	<p> Listings page </p>
         <p> {this.state.user} </p>
-      	<Logout/>
         <p> Post a listing </p>
         <AddList user={this.user} school={this.props.school} />
         <p> Your Listings </p>

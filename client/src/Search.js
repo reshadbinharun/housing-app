@@ -8,7 +8,6 @@ class Search extends Component {
   render() {
     return (
       <div>
-      	<Logout />
         <p> Welcome to Search! </p>
         <Form/>
         <Results/>
